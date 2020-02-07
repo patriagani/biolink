@@ -79,6 +79,38 @@ class UserController {
                 })
             })
     }
+
+    static signin(req, res) {
+        User.findOne({email: req.body.email})
+          .then(function (user) {
+            if (user && bcrypt.compareSync(req.body.password, user.password)) {
+              let payload = {
+                _id: user._id,
+                name: user.name,
+                email: user.email,
+              }
+    
+              let token = jwt.sign(payload, process.env.JWT_SECRET);
+              res.header('x-auth-token', token).status(200).json({
+                id: payload._id,
+                name: payload.name,
+                signin: true
+              })
+            }
+            else {
+              res.status(401).json({
+                message: "Wrong email/password",
+              })
+            }
+          })
+          .catch(function(error) {
+            console.log(error.message);
+            res.status(500).json({
+              message: "Internal server error",
+              error: error.message
+            })
+          })
+      }
 }
 
 module.exports = UserController

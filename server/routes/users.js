@@ -12,6 +12,6 @@ router.patch('/:userId', UserController.updateUser)
 
 router.delete('/:userId', UserController.deleteUser)
 
-// router.post('/signin', UserController.signin)
+router.post('/signin', UserController.signin)
 
 module.exports = router
