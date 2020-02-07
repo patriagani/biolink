@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken')
 
 class UserController {
     static register(req, res) {
-        let password = bcrypt.hashSync(req.body.password, salt);
+        let password = bcrypt.hashSync(req.body.password, salt)
         let obj = {
             name: req.body.name,
             username: req.body.username,
@@ -86,14 +86,15 @@ class UserController {
             if (user && bcrypt.compareSync(req.body.password, user.password)) {
               let payload = {
                 _id: user._id,
+                username: user.username,
                 name: user.name,
-                email: user.email,
+                email: user.email
               }
     
               let token = jwt.sign(payload, process.env.JWT_SECRET);
               res.header('x-auth-token', token).status(200).json({
                 id: payload._id,
-                name: payload.name,
+                username: payload.username,
                 signin: true
               })
             }
