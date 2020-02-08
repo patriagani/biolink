@@ -53,15 +53,15 @@ class UserController {
 
     static updateUser(req, res) {
         User.findOneAndUpdate({_id: req.params.userId}, req.body, {new: true})
-          .then(function(user) {
-            res.status(200).json(user)
-          })
-          .catch(function(error) {
-            res.status(500).json({
-              message: "Internal Server Error",
-              error: error
+            .then(function(user) {
+              res.status(200).json(user)
             })
-          })
+            .catch(function(error) {
+              res.status(500).json({
+                message: "Internal Server Error",
+                error: error
+              })
+            })
     }
 
     static deleteUser(req, res) {
