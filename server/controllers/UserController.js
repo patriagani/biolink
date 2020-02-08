@@ -52,6 +52,7 @@ class UserController {
     }
 
     static updateUser(req, res) {
+        req.body.password = bcrypt.hashSync(req.body.password, salt)
         User.findOneAndUpdate({_id: req.params.userId}, req.body, {new: true})
             .then(function(user) {
               res.status(200).json(user)
