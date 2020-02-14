@@ -8,7 +8,7 @@
       max-width="1000"
     >
       <v-card-text>
-        <h3>Here you can edit your BioLink profile</h3>
+        <h3>Here you can add link to your profile</h3>
         <br>
         <p>You have total 5 links on your BioLink profile:  @patriagani</p>
       </v-card-text>
@@ -29,7 +29,7 @@
           text
           color="deep-purple accent-4"
         >
-          Add Link
+          Update Profile
         </v-btn>
         <v-btn
           text
@@ -81,7 +81,7 @@
             color="primary"
             class="mr-4"
             >
-            Save Profile
+            Add Link
           </v-btn>
         </v-row>
       </v-form>
