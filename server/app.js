@@ -17,7 +17,12 @@ const app = express()
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
-app.use(cors())
+
+//Cors
+const corsOptions = {
+    exposedHeaders: 'x-auth-token',
+  };
+app.use(cors(corsOptions))
 
 app.use('/', indexRoute)
 app.use('/users', userRoute)

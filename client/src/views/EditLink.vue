@@ -8,7 +8,7 @@
       max-width="1000"
     >
       <v-card-text>
-        <h3>Here you can add link to your profile</h3>
+        <h3>Here you can edit link to your profile</h3>
         <br>
         <p>You have total {{links.length}} links on your BioLink profile:  @patriagani</p>
       </v-card-text>
@@ -78,9 +78,9 @@
           <v-btn
             color="primary"
             class="mr-4"
-            @click="addLink"
+            @click="saveLink"
             >
-            Add Link
+            Save Link
           </v-btn>
         </v-row>
       </v-form>
@@ -108,6 +108,16 @@
     },
     props: ['url'],
     methods: {
+      getLink() {
+        axios.get(`${this.url}/links/${this.$route.params.linkId}`)
+          .then((response) => {
+            this.link = response.data.link
+            this.name = response.data.name
+          })
+          .catch(function(error) {
+            console.log(error.message)
+          })
+      },
       getLinks() {
         axios.get(`${this.url}/links/createdby/${localStorage.getItem('username')}`)
           .then((response) => {
@@ -126,16 +136,16 @@
             console.log(error.message)
           })
       },
-      addLink() {
+      saveLink() {
         let obj = {
           name: this.name,
           link: this.link
         }
         
         const options = {
-          method: 'POST',
+          method: 'PATCH',
           headers: {'x-auth-token': localStorage.getItem('token')},
-          baseURL: `${this.url}/links`,
+          baseURL: `${this.url}/links/${this.$route.params.linkId}`,
           data: obj
         }
 
@@ -151,6 +161,7 @@
     created() {
       this.getUser()
       this.getLinks()
+      this.getLink()
       
       if(localStorage.getItem('id') === undefined &&
          localStorage.getItem('username') === undefined &&

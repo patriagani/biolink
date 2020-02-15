@@ -14,7 +14,6 @@
           >
             <v-text-field
               v-model="email"
-              :rules="emailRules"
               label="E-mail"
               required
             ></v-text-field>
@@ -29,7 +28,6 @@
             <v-text-field
               v-model="password"
               type="password"
-              :rules="passwordRules"
               label="Password"
               required
             ></v-text-field>
@@ -40,17 +38,13 @@
           <v-btn
             color="success"
             class="mr-4"
+            @click="loginAccount"
             >
             Login
           </v-btn>
-
-          <v-btn
-            color="primary"
-            class="mr-4"
-            >
-            Sign Up
-          </v-btn>
         </v-row>
+        <br>
+        <p align="center">Don't have an account? Sign up for free <a href="google.com">here</a></p>
 
       </v-container>
     </v-form>
@@ -58,11 +52,41 @@
 </template>
 
 <script>
+
+  import axios from 'axios'
+
   export default {
     name: 'LoginForm',
 
     data: () => ({
-     
+     email: "",
+     password: "",
     }),
+    props: ['url'],
+    methods: {
+      loginAccount() {
+        let obj = {
+          email: this.email,
+          password: this.password
+        }
+        axios.post(`${this.url}/users/signin`, obj)
+          .then(function(response) {
+            localStorage.setItem('token', response.headers['x-auth-token'])
+            localStorage.setItem('id', response.data.id)
+            localStorage.setItem('username', response.data.username)
+            this.$router.push('/dashboard')
+          })
+          .catch(function(error) {
+            console.log(error.message)
+          })
+      }
+    },
+    created() {
+      if(localStorage.getItem('id') !== undefined &&
+         localStorage.getItem('username') !== undefined &&
+         localStorage.getItem('token') !== undefined) {
+           this.$router.push('/dashboard')
+         }
+    }
   }
 </script>

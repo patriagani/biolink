@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-content>
-      <router-view></router-view>
+      <router-view :url="url"></router-view>
     </v-content>
   </v-app>
 </template>
@@ -17,7 +17,13 @@ export default {
   },
 
   data: () => ({
-    //
+    url: 'http://localhost:3000',
   }),
+  methods: {
+    //
+  },
+  mounted() {
+    
+  }
 };
 </script>

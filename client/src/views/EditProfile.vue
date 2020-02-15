@@ -1,7 +1,7 @@
 <template>
   <div class="editprofile">
     <br>
-    <h2 align="center">Biolink Add Link</h2>
+    <h2 align="center">Biolink Edit Profile</h2>
     <br>
     <v-card
       class="mx-auto"

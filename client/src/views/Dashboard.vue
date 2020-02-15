@@ -8,9 +8,9 @@
       max-width="1000"
     >
       <v-card-text>
-        <h3>Hi, Welcome Back Patria</h3>
+        <h3>Hi, Welcome Back {{user.name}}</h3>
         <br>
-        <p>You have total 5 links on your BioLink profile:  @patriagani</p>
+        <p>You have total {{links.length}} links on your BioLink profile:  @{{user.username}}</p>
       </v-card-text>
       <v-card-actions>
         <v-btn
@@ -49,25 +49,27 @@
         <br>
       </v-card-text>
       
-      <div>
+      <div v-for="link in links" v-bind:key="link">
         <v-card
           class="mx-auto"
           max-width="800"
         >
           <v-card-text>
-            <h4>Twitter : </h4>
-            <p>https://twitter.com/patriagani</p>
+            <h4>{{link.name}} : </h4>
+            <p>{{link.link}}</p>
           </v-card-text>
           <v-card-actions>
             <v-btn
               text
               color="deep-purple accent-4"
+              @click="editLink(link._id)"
             >
               Edit Link
             </v-btn>
             <v-btn
               text
               color="deep-purple accent-4"
+              @click="deleteLink(link._id)"
             >
               Delete Link
             </v-btn>
@@ -75,10 +77,75 @@
         </v-card>
         <br>
       </div>
-
-      
-
+      <br>      
     </v-card>
 
+    <br><br>
   </div>
 </template>
+
+<script>
+
+  import axios from 'axios'
+
+  export default {
+    name: 'Dashboard',
+
+    data: () => {
+      return {
+        user: {}, 
+        links: [],
+      }
+    },
+    props: ['url'],
+    methods: {
+      getLinks() {
+        axios.get(`${this.url}/links/createdby/${localStorage.getItem('username')}`)
+          .then((response) => {
+            this.links = response.data
+          })
+          .catch(function(error) {
+            console.log(error.message)
+          })
+      },
+      getUser() {
+        axios.get(`${this.url}/users/${localStorage.getItem('id')}`)
+          .then((response) => {
+            this.user = response.data
+          })
+          .catch(function(error) {
+            console.log(error.message)
+          })
+      },
+      deleteLink(id) {
+        const options = {
+          method: 'DELETE',
+          headers: {'x-auth-token': localStorage.getItem('token')},
+          baseURL: `${this.url}/links/${id}`,
+        }
+
+        axios(options)
+          .then(() => {
+            console.log('success delete link')
+            this.getLinks()
+          })
+          .catch(function(error) {
+            console.log(error.message, 'ini error')
+          })
+      },
+      editLink(id) {
+        this.$router.push(`/editlink/${id}`)
+      }
+    },
+    created() {
+      this.getLinks()
+      this.getUser()
+      
+      if(localStorage.getItem('id') === undefined &&
+         localStorage.getItem('username') === undefined &&
+         localStorage.getItem('token') === undefined) {
+           this.$router.push('/')
+         }
+    }
+  }
+</script>
