@@ -44,7 +44,7 @@
           </v-btn>
         </v-row>
         <br>
-        <p align="center">Don't have an account? Sign up for free <a href="google.com">here</a></p>
+        <p align="center">Don't have an account? Sign up for free <router-link :to="{ path: 'signup' }">here</router-link></p>
 
       </v-container>
     </v-form>
@@ -70,22 +70,22 @@
           password: this.password
         }
         axios.post(`${this.url}/users/signin`, obj)
-          .then(function(response) {
+          .then((response) => {
             localStorage.setItem('token', response.headers['x-auth-token'])
             localStorage.setItem('id', response.data.id)
             localStorage.setItem('username', response.data.username)
             this.$router.push('/dashboard')
           })
-          .catch(function(error) {
+          .catch((error) => {
             console.log(error.message)
           })
       }
     },
     created() {
-      if(localStorage.getItem('id') !== undefined &&
-         localStorage.getItem('username') !== undefined &&
-         localStorage.getItem('token') !== undefined) {
-           this.$router.push('/dashboard')
+      if(localStorage.getItem('id') &&
+         localStorage.getItem('username') &&
+         localStorage.getItem('token')) {
+         this.$router.push('/dashboard')
          }
     }
   }

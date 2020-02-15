@@ -10,30 +10,28 @@
       <v-card-text>
         <h3>Here you can edit link to your profile</h3>
         <br>
-        <p>You have total {{links.length}} links on your BioLink profile:  @patriagani</p>
+        <p>You have total {{links.length}} links on your BioLink profile:  @{{user.username}}</p>
+        <p>Visit your BioLink profile:  <a :href="`https://biolink.me/${user.username}`">biolink.me/{{user.username}}</a></p>
       </v-card-text>
       <v-card-actions>
         <v-btn
           text
           color="deep-purple accent-4"
+          @click="()=>{this.$router.push('/dashboard')}"
         >
           Dashboard
         </v-btn>
         <v-btn
           text
           color="deep-purple accent-4"
+          @click="()=>{this.$router.push('/editprofile')}"
         >
-          Visit Profile
+          Edit Profile
         </v-btn>
         <v-btn
           text
           color="deep-purple accent-4"
-        >
-          Update Profile
-        </v-btn>
-        <v-btn
-          text
-          color="deep-purple accent-4"
+          @click="signOut"
         >
           Sign Out
         </v-btn>
@@ -68,7 +66,7 @@
           >
             <v-text-field
               v-model="link"
-              label="Link"
+              label="Link URL"
               required
             ></v-text-field>
           </v-col>
@@ -82,12 +80,21 @@
             >
             Save Link
           </v-btn>
+
+          <v-btn
+            color="secondary"
+            class="mr-4"
+            @click="cancel"
+            >
+            Cancel
+          </v-btn>
         </v-row>
       </v-form>
       <v-card-actions>
       </v-card-actions>
+      <br>
     </v-card>
-
+    <br><br>
   </div>
 </template>
 
@@ -151,11 +158,19 @@
 
         axios(options)
           .then(() => {
+            this.$router.push('/dashboard')
             console.log('success add link')
           })
           .catch(function(error) {
             console.log(error.message, 'ini error')
           })
+      },
+      cancel() {
+        this.$router.push('/dashboard')
+      },
+      signOut() {
+        localStorage.clear()
+        this.$router.push('/')
       }
     },
     created() {
@@ -163,9 +178,9 @@
       this.getLinks()
       this.getLink()
       
-      if(localStorage.getItem('id') === undefined &&
-         localStorage.getItem('username') === undefined &&
-         localStorage.getItem('token') === undefined) {
+      if(!localStorage.getItem('id') &&
+         !localStorage.getItem('username') &&
+         !localStorage.getItem('token')) {
            this.$router.push('/')
          }
     }

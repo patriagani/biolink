@@ -11,29 +11,27 @@
         <h3>Hi, Welcome Back {{user.name}}</h3>
         <br>
         <p>You have total {{links.length}} links on your BioLink profile:  @{{user.username}}</p>
+        <p>Visit your BioLink profile:  <a :href="`https://biolink.me/${user.username}`">biolink.me/{{user.username}}</a></p>
       </v-card-text>
       <v-card-actions>
         <v-btn
           text
           color="deep-purple accent-4"
+          @click="()=>{this.$router.push('/addlink')}"
         >
           Add Link
         </v-btn>
         <v-btn
           text
           color="deep-purple accent-4"
+          @click="()=>{this.$router.push('/editprofile')}"
         >
-          Visit Profile
+          Edit Profile
         </v-btn>
         <v-btn
           text
           color="deep-purple accent-4"
-        >
-          Update Profile
-        </v-btn>
-        <v-btn
-          text
-          color="deep-purple accent-4"
+          @click="signOut"
         >
           Sign Out
         </v-btn>
@@ -45,7 +43,10 @@
       max-width="1000"
     >
       <v-card-text>
-        <h3 align="left">Your available links on your profile: </h3>
+        <h3 v-if="links.length > 0" align="left">Your available links on your profile: </h3>
+        <h3 v-if="links.length == 0" align="left">Your don't have any links on your profile: </h3>
+        <br>
+        <h3 v-if="links.length == 0" align="left">Create at least one link <router-link :to="{ path: 'addlink' }">here</router-link></h3>
         <br>
       </v-card-text>
       
@@ -135,15 +136,19 @@
       },
       editLink(id) {
         this.$router.push(`/editlink/${id}`)
+      },
+      signOut() {
+        localStorage.clear()
+        this.$router.push('/')
       }
     },
     created() {
       this.getLinks()
       this.getUser()
       
-      if(localStorage.getItem('id') === undefined &&
-         localStorage.getItem('username') === undefined &&
-         localStorage.getItem('token') === undefined) {
+      if(!localStorage.getItem('id') &&
+         !localStorage.getItem('username') &&
+         !localStorage.getItem('token')) {
            this.$router.push('/')
          }
     }
