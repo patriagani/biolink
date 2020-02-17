@@ -80,6 +80,7 @@
 <script>
 
   import axios from 'axios'
+  import Swal from 'sweetalert2'
 
   export default {
     name: 'SignupForm',
@@ -102,9 +103,18 @@
         axios.post(`${this.url}/users`, obj)
           .then(() => {
             this.$router.push('/')
+            Swal.fire({
+              icon: 'success',
+              title: 'Yeaaay',
+              text: 'Account created, you can login now'
+            })
           })
           .catch((error) => {
-            console.log(error.message)
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops',
+              text: error.message
+            })
           })
       }
     },

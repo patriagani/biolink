@@ -54,6 +54,7 @@
 <script>
 
   import axios from 'axios'
+  import Swal from 'sweetalert2'
 
   export default {
     name: 'LoginForm',
@@ -77,7 +78,11 @@
             this.$router.push('/dashboard')
           })
           .catch((error) => {
-            console.log(error.message)
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops',
+              text: error.message
+            })
           })
       }
     },

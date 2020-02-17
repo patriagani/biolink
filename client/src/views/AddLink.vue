@@ -93,6 +93,7 @@
 <script>
 
   import axios from 'axios'
+  import Swal from 'sweetalert2'
 
   export default {
     name: 'Dashboard',
@@ -144,8 +145,19 @@
             this.link = ""
             console.log('success add link')
           })
+          .then(() => {
+            Swal.fire({
+              icon: 'success',
+              title: 'Yeaaay',
+              text: 'Link added successfully'
+            })
+          })
           .catch(function(error) {
-            console.log(error.message, 'ini error')
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops',
+              text: error.message
+            })
           })
       },
       signOut() {

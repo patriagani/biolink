@@ -128,6 +128,7 @@
 <script>
 
   import axios from 'axios'
+  import Swal from 'sweetalert2'
 
   export default {
     name: 'EditProfile',
@@ -184,8 +185,19 @@
           this.file = ""
           this.password = ""
         })
+        .then(() => {
+          Swal.fire({
+            icon: 'success',
+            title: 'Yeaaay',
+            text: 'Profile changed successfully'
+          })
+        })
         .catch((error) => {
-          console.log(error.message);
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops',
+            text: error.message
+          })
         })
       },
       cancel() {

@@ -88,6 +88,7 @@
 <script>
 
   import axios from 'axios'
+  import Swal from 'sweetalert2'
 
   export default {
     name: 'Dashboard',
@@ -125,14 +126,36 @@
           baseURL: `${this.url}/links/${id}`,
         }
 
-        axios(options)
-          .then(() => {
-            console.log('success delete link')
-            this.getLinks()
-          })
-          .catch(function(error) {
-            console.log(error.message, 'ini error')
-          })
+        Swal.fire({
+          title: 'Are you sure?',
+          text: "You won't be able to revert this!",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+          if (result.value) {
+            Swal.fire(
+              'Deleted!',
+              'Your link has been deleted.',
+              'success'
+            )
+            axios(options)
+              .then(() => {
+                console.log('success delete link')
+                this.getLinks()
+              })
+              .catch(function(error) {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Oops',
+                  text: error.message
+                })
+              })
+          }
+        })
+
       },
       editLink(id) {
         this.$router.push(`/editlink/${id}`)
