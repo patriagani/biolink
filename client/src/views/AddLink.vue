@@ -11,7 +11,7 @@
         <h3>Here you can add link to your profile</h3>
         <br>
         <p>You have total {{links.length}} links on your BioLink profile:  @{{user.username}}</p>
-        <p>Visit your BioLink profile:  <a :href="`https://biolink.me/${user.username}`">biolink.me/{{user.username}}</a></p>
+        <p>Visit your BioLink profile:  <a :href="`https://biolink.my.id/${user.username}`">biolink.my.id/{{user.username}}</a></p>
       </v-card-text>
       <v-card-actions>
         <v-btn
