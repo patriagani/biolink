@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta charset="utf-8">
+  <title>BioLink - <%= data.user.name %> </title>
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- FONT
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+  <!-- CSS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/skeleton.css">
+
+  <!-- Favicon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="icon" type="image/png" href="images/favicon.png">
+</head>
+<body>
+     <!-- Primary Page Layout
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <div class="container">
+    <div class="row">
+      <div class="tweleve column" style="margin-top: 5%; text-align: center;">
+        <img src="<%= data.user.imageUrl %>" alt="<%= data.user.username %>" height="100" width="100" style="border-radius: 50%;">
+        <h5><%= data.user.name %></h5>
+        <% for(let i =0;i < data.links.length; i++){ %>
+            <a class="button" style="width: 25%;" href="<%= data.links[i].link %>"><%= data.links[i].name %></a><br><br>
+          <% } %>
+        <br>
+        <p style="margin-bottom: 0;">This This profile powered by Biolink.</p>
+        <p>Create your own <a href="http://app.biolink.my.id" target="_blank">here</a> and simplify your links.</p>
+    </div>
+    </div>
+  </div>
+
+<!-- End Document
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+</body>
+</html>
