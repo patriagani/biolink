@@ -17,7 +17,7 @@ export default {
   },
 
   data: () => ({
-    url: 'https://radiant-shore-44957.herokuapp.com',
+    url: 'http://localhost:3000',
   }),
   methods: {
     //
